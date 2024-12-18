@@ -1,9 +1,6 @@
 import streamlit as st
 import pandas as pd
 import matplotlib.pyplot as plt
-import matplotlib.pyplot as plt
-print(plt.__version__)  # Should print the installed version of matplotlib
-
 from sklearn.model_selection import train_test_split
 from sklearn.linear_model import LinearRegression
 from sklearn.metrics import mean_squared_error, r2_score
@@ -20,7 +17,7 @@ if uploaded_file is not None:
 
     # Display the dataframe
     st.subheader("Dataset")
-    st.write(df.head(10))  # Display the first 10 rows for better readability
+    st.write(df.head())
 
     # Select the feature and label from the dataframe
     features = st.selectbox("Select the feature (X)", df.columns)
@@ -34,7 +31,7 @@ if uploaded_file is not None:
             y = df[label]       # Label is a 1D array
 
             # Check if there are missing values in the selected columns
-            if X.isnull().sum().any() or y.isnull().any():
+            if X.isnull().sum().any() or y.isnull().sum() > 0:
                 st.error("The dataset contains missing values. Please clean the data.")
             else:
                 # Split into training and testing sets
@@ -61,8 +58,8 @@ if uploaded_file is not None:
                 plt.title(f"{features} vs {label}")
                 plt.legend()
                 st.pyplot(plt)
-                plt.clf()  # Clear the plot for future updates
     else:
         st.error("Feature and label cannot be the same. Please select different columns.")
+
 else:
     st.warning("Please upload a CSV file to get started.")
